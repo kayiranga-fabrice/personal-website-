@@ -33,20 +33,4 @@ jobs:
       - name: Logout from Azure
         if: always()
         run: az logout
-```
 
----
-
-## What Changed
-
-| | Before | After |
-|---|---|---|
-| `slot-name` | `Production` (capital P) | `production` (lowercase) |
-| Checkout step | Missing `name:` | Added for clarity |
-| Logout step | Missing | Added — best practice to clean up the session |
-
----
-
-## Save This File As
-```
-.github/workflows/deploy.yml

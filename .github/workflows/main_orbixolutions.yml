@@ -12,7 +12,8 @@ jobs:
 
     steps:
       # Step 1: Checkout repository
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       # Step 2: Login to Azure using service principal JSON
       - name: Login to Azure
@@ -24,6 +25,28 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: orbixolutions   # Azure App Service name
-          slot-name: Production
-          package: .               # Deploy all repository files
+          app-name: orbixolutions
+          slot-name: production
+          package: .
+
+      # Step 4: Logout from Azure (cleanup)
+      - name: Logout from Azure
+        if: always()
+        run: az logout
+```
+
+---
+
+## What Changed
+
+| | Before | After |
+|---|---|---|
+| `slot-name` | `Production` (capital P) | `production` (lowercase) |
+| Checkout step | Missing `name:` | Added for clarity |
+| Logout step | Missing | Added — best practice to clean up the session |
+
+---
+
+## Save This File As
+```
+.github/workflows/deploy.yml

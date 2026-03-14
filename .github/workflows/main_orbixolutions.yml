@@ -11,17 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Login to Azure using service principal JSON
       - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Step 3: Deploy all files to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
@@ -29,10 +26,7 @@ jobs:
           slot-name: production
           package: .
 
-      # Step 4: Logout from Azure (cleanup)
       - name: Logout from Azure
-        if: always()
-        run: az logout
         if: always()
         run: az logout
 

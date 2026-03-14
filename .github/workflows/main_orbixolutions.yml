@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout repository
       - uses: actions/checkout@v4
 
       # Step 2: Login to Azure using service principal JSON
@@ -24,9 +24,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: orbixolutions       # Your Azure App Service name
+          app-name: orbixolutions   # Azure App Service name
           slot-name: Production
-          package: .                   # Deploy all repository files
-          app-name: orbixolutions
-          slot-name: Production
-          package: .
+          package: .               # Deploy all repository files

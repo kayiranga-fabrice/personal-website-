@@ -8,15 +8,17 @@ on:
 
 permissions:
   contents: read
-  id-token: write
+  id-token: write   # Required if you later want OIDC, safe to keep
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout your repo
       - uses: actions/checkout@v4
 
+      # Step 2: Login to Azure using classic Service Principal
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -26,6 +28,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # Step 3: Deploy all files to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:

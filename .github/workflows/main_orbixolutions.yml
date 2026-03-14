@@ -1,4 +1,4 @@
-name: Deploy website to Azure Web App - orbixolutions
+name: Deploy static website to Azure Web App - orbixolutions
 
 on:
   push:
@@ -6,32 +6,27 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write   # Required if you later want OIDC, safe to keep
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout your repo
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v4
 
-      # Step 2: Login to Azure using classic Service Principal
+      # Step 2: Login to Azure using service principal JSON
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          auth-type: SERVICE_PRINCIPAL
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Step 3: Deploy all files to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
+          app-name: orbixolutions       # Your Azure App Service name
+          slot-name: Production
+          package: .                   # Deploy all repository files
           app-name: orbixolutions
           slot-name: Production
           package: .
